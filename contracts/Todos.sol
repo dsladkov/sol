@@ -8,5 +8,5 @@ contract Todos {
     }
 
     //An array of 'Todo' structs
-    Todo[] public todos
+    Todo[] public todos;
 }
