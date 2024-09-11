@@ -23,7 +23,7 @@ contract Ownable {
   }
 }
 
-constract MultiSig is Ownable {
+contract MultiSig is Ownable {
   uint public requiredApprovals;
 
   struct Transaction {
@@ -65,7 +65,7 @@ constract MultiSig is Ownable {
   }
 
   modifier enoughApprovals(uint _txId) {
-    require(enoughApprovals[_txId] >= requiredApprovals, "not enough approvals");
+    require(approvalsCount[_txId] >= requiredApprovals, "not enough approvals");
     _;
   }
 
@@ -79,14 +79,14 @@ constract MultiSig is Ownable {
   }
 
   function submit(address _to, uint _value, bytes calldata _data) external onlyOwners{
-    Transaction memroy newTx = Transaction({
-      _to: to,
+    Transaction memory newTx = Transaction({
+      _to: _to,
       _value: _value,
       _data: _data,
       _executed: false
     });
 
-    transactoin.push(newTx);
+    transactions.push(newTx);
 
     emit Submit(transactions.length - 1);
   }
@@ -114,9 +114,9 @@ constract MultiSig is Ownable {
   }
 
   function execute(uint _txId) external txExists(_txId) notExecuted(_txId) enoughApprovals(_txId) {
-    Transaction storage myTx = transaction[_txId];
+    Transaction storage myTx = transactions[_txId];
 
-    (bool success, _) = myTx._to.call{value: myTx.value}(myTx._data);
+    (bool success, ) = myTx._to.call{value: myTx._value}(myTx._data);
     require(success, "tx failed");
     myTx._executed = true;
 

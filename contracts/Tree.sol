@@ -29,7 +29,7 @@ contract Tree {
       uint offset = 0;
       while (n > 0){
         for(uint i = 0; i < n - 1; i += 2) {
-          bytees32 newHash = keccak256(abi.encodePacked(hashes[i + offset], hashes[i + offset + 1]));
+          bytes32 newHash = keccak256(abi.encodePacked(hashes[i + offset], hashes[i + offset + 1]));
           hashes.push(newHash);
         }
         offset +=n;
@@ -45,11 +45,11 @@ contract Tree {
   function verify(bytes32 root, bytes32 leaf, uint _index, bytes32[] memory proof) public pure returns(bool) {
     bytes32 hash = leaf;
     for(uint i = 0; i < proof.length; i++) {
-      bytes proofElement = proof[i];
+      bytes32 proofElement = proof[i];
       if(_index % 2 == 0) {
-        hash = keccak256(abi.encodePacked(hash, proff));
+        hash = keccak256(abi.encodePacked(hash, proofElement));
       } else {
-        hash = keccak256(abi.encodePacked(proff, hash));
+        hash = keccak256(abi.encodePacked(proofElement, hash));
       }
     }
     _index = _index / 2;
