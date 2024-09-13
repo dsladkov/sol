@@ -11,8 +11,8 @@ interface IERC721 {
   function safeTransferFrom(address from, address to, uint tokenId, bytes calldata data) external;
   function safeTransferFrom(address from, address to, uint tokenId) external;
   function transferFrom(address from, address to, uint tokenId) external;
-  function approve(address to,uint tokenId) external;
-  function setApprovalForAll(address operator, bool approved, uint tokenId) external;
+  function approve(address to, uint tokenId) external;
+  function setApprovalForAll(address operator, bool approved) external;
   function getApproved(uint tokenId) external view returns(address);
   function isApproved(address owner, address operator) external view returns(bool);
 }
