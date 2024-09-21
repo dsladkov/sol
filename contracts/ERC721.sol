@@ -80,7 +80,51 @@ contract ERC721 is IERC721, IERC721Metadata {
     return _operatorApprovals[owner][operator];
   }
 
-  function _baseURI() internal view virtual returns(string memory){
+  function _safeMint(address to, uint tokenId) internal virtual {
+    _safeMint(to, tokenId, "");
+  }
+
+  function _safeMint(address to, uint tokenId, bytes memory data) internal virtual {
+    _mint(to, tokenId);
+    require(_checkOnERC721Received(address(0), to, tokenId, data), "non-erc721 receiver" );
+
+  }
+
+  function _mint(address to, uint tokenId) internal virtual {
+    require(to != address(0), "zero addres to");
+    require(!_exists(tokenId), "this tokenId is already minted");
+
+    _beforeTokenTransfer(address(0), to, tokenId);
+
+    _owners[tokenId]= to;
+    _balances[to]++;
+
+    emit Transfer(address(0), to, tokenId);
+
+    _afterTokenTransfer(address(0), to, tokenId);
+  }
+
+  function burn(uint256 tokenId) public virtual {
+    require(_isApprovedOrOwner(msg.sender, tokenId), "not an owner");
+    _burn(tokenId);
+  }
+
+  function _burn(uint tokenId) internal virtual {
+    address owner = this.ownerOf(tokenId);
+
+
+    _beforeTokenTransfer(owner, address(0), tokenId);
+    
+    delete _tokenApprovals[tokenId];
+    _balances[owner]--;
+    delete _owners[tokenId];
+
+    emit Transfer(owner, address(0), tokenId);
+
+    _afterTokenTransfer(owner, address(0), tokenId);
+  }
+
+  function _baseURI() internal pure virtual returns(string memory){
     return "";
   }
 

@@ -14,5 +14,5 @@ interface IERC721 {
   function approve(address to, uint tokenId) external;
   function setApprovalForAll(address operator, bool approved) external;
   function getApproved(uint tokenId) external view returns(address);
-  function isApproved(address owner, address operator) external view returns(bool);
+  function isApprovedForAll(address owner, address operator) external view returns(bool);
 }
