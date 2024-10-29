@@ -6,4 +6,7 @@ contract TopParent {
     return address(this).balance;
   }
 
+  function parentFunc() public virtual pure returns(uint) {
+    return 1;
+  }
 }
