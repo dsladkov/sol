@@ -6,6 +6,10 @@ contract Contract {
 
     mapping (address => uint) public payments;
 
+    function getBalance() public view returns(uint) {
+        return address(this).balance;
+    }
+
     function getName() public view returns(string memory) {
         return name;
     }
