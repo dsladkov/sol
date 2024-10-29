@@ -2,9 +2,10 @@
 pragma solidity ^0.8.0;
 
 import "./CustomErrors.sol";
+import "./TopParent.sol";
 import "./Owned.sol";
 
-contract ChildContract is Owned {
+contract ChildContract is TopParent, Owned {
     bool public isActive = true;
 
     modifier isItAlive() {
