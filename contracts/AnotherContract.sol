@@ -21,8 +21,8 @@ contract AnotherContract {
         return IContract(_contractAddr).getName();
     }
 
-    function callGetterName(IContract addr) public view returns(string memory) {
-        return addr.name();
+    function callGetterName(address addr) public view returns(string memory) {
+        return IContract(addr).name();
     }
 
     function callSetName(address contractAddr,string memory _newName) public {
