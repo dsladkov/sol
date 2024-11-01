@@ -2,7 +2,7 @@
 pragma solidity ^0.8.0;
 
 interface IContract {
-    function addressFactory(address _addr) external view returns(address);
+    function addressFactory() external view returns(address);
 }
 
 contract Contract {
@@ -20,7 +20,7 @@ contract Contract {
 }
 
 contract ContractFactory {
-    Contract[] public contracts;
+    IContract[] public contracts;
 
     function deposit() public payable {}
 
@@ -30,10 +30,10 @@ contract ContractFactory {
 
     function createContract(address _addr) public payable {
         Contract newContract = new Contract{value: msg.value}(_addr);
-        contracts.push(newContract);
+        contracts.push(IContract(address(newContract)));
     }
 
-    function getContract(uint _index) public view returns(Contract) {
+    function getContract(uint _index) public view returns(IContract) {
         return contracts[_index];
     }
 
